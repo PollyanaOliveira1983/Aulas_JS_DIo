@@ -1,23 +1,13 @@
-const BASE_URL = 'https://thatcopy.pw/catapi/rest/';
-const catBtn = document.getElementById('change-cat');
-const catImg = document.getElementById('cat');
+const BASE_URL = 'https://api.thecatapi.com/v1/images/search';
 
-
-const getCats = async() => {
-    try {
-        const data = await fetch(BASE_URL);
-        const json = await data.json();
-
-        return json.webpurl;
-    } catch(e) {
-        console.log(e.message);
-    }
+const getCats = async () => {
+  const response = await fetch(BASE_URL)
+  const cats = await response.json();
+  return cats[0].url;
 };
 
-const loadImg = async() => {
-    catImg.src = await getCats();
-}
+const loadImg = async () => document.getElementById('cat').src = `${await getCats()}`
 
-catBtn.addEventListener('click', loadImg);
+document.getElementById('change-cat').addEventListener('click', loadImg);
 
-loadImg(); 
+window.onload = loadImg();
